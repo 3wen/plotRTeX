@@ -6,7 +6,7 @@ Works on Mac OS, requires PDFLaTeX.
 
 # How to Install
 
-```
+```{r}
 devtools::install_github("3wen/plotRTex")
 ```
 
@@ -14,7 +14,7 @@ devtools::install_github("3wen/plotRTex")
 
 First create a ggplot graphic, then use the `ggplot2_to_pdf()` function to export it as a `tex` file and a `PDF` file.
 
-```
+```{r}
 economics_long <- 
 mutate(economics_long, variable_tex = factor(variable,
                         levels = c("pce", "pop", "psavert", "uempmed", "unemploy"),
