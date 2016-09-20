@@ -25,31 +25,34 @@ ggplot2_to_pdf <-
                       \\begin{document}
                       
                       \\input{",
-                      path, filename,
+                      "tmp_", filename,
                       "_content.tex}
                       
                       \\end{document}")
     
     # Le fichier qui va importer le graphique au format tex pour le compiler en pdf
-    fileConn<-file(paste0(path, filename, ".tex"))
+    fileConn <- file(paste0("tmp_", filename, ".tex"))
     writeLines(content, fileConn)
     close(fileConn)
     
     # Exportation du graphique en tex
-    tikz(file = paste0(path, filename, "_content.tex"), width = width, height = height)
+    tikz(file = paste0("tmp_", filename, "_content.tex"), width = width, height = height)
     print(plot)
     dev.off()
     
     # Executer le fichier tex pour obtenir le pdf
-    system(paste0("/Library/TeX/texbin/", interpreter, " -shell-escape -synctex=1 -interaction=nonstopmode  ",
-                  path, filename, ".tex"))
-    system(paste0("mv ", filename, ".pdf ", path))
-    system(paste0("rm ", filename, ".aux"))
-    system(paste0("rm ", filename, ".log"))
-    system(paste0("rm ", filename, ".synctex.gz"))
-    if(!keep_tex){
-      system(paste0("rm ", path, filename, ".tex"))
-      system(paste0("rm ", path, filename, "_content.tex"))
+    system(paste0("/Library/TeX/texbin/", interpreter, " -shell-escape -synctex=1 -interaction=nonstopmode  ", 
+                  "tmp_", filename, ".tex"))
+    system(paste0("mv tmp_", filename, ".pdf ", path, filename, ".pdf"))
+    system(paste0("rm tmp_", filename, ".aux"))
+    system(paste0("rm tmp_", filename, ".log"))
+    system(paste0("rm tmp_", filename, ".synctex.gz"))
+    if (!keep_tex) {
+      system(paste0("rm tmp_", filename, ".tex"))
+      system(paste0("rm tmp_", filename, "_content.tex"))
+    }else{
+      system(paste0("mv tmp_", filename, ".tex ", path, filename, ".tex"))
+      system(paste0("mv tmp_", filename, "_content.tex ", path, filename, "_content.tex"))
     }
 }
 
