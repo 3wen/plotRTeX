@@ -10,10 +10,12 @@ library(tikzDevice)
 # @filename: name of the file (without extension)
 # @keep_tex: if FALSE (default), removes TeX files
 # @width, height: plot dimensions
+# @verbose: a logical value indicating whether diagnostic messages are printed when measuring dimensions of strings. Defaults to TRUE in interactive mode only, to FALSE otherwise.
+# @ignore.stdout: a logical (not NA) indicating whether messages written to 'stdout' or 'stderr' should be ignored.
 # path <- "../images/" ; filename <- "data" ; width = 15 ; height = .75*width
 ggplot2_to_pdf <- 
   function(plot, interpreter = "pdflatex", path = "./",
-           filename, keep_tex = FALSE, width = 15, height = 15){
+           filename, keep_tex = FALSE, width = 15, height = 15, verbose = FALSE, ignore.stdout = TRUE){
     content <- paste0("\\documentclass{standalone}
                       \\usepackage{amssymb}
                       \\usepackage{pgfplots}
@@ -25,34 +27,31 @@ ggplot2_to_pdf <-
                       \\begin{document}
                       
                       \\input{",
-                      "tmp_", filename,
+                      path, filename,
                       "_content.tex}
                       
                       \\end{document}")
     
     # Le fichier qui va importer le graphique au format tex pour le compiler en pdf
-    fileConn <- file(paste0("tmp_", filename, ".tex"))
+    fileConn<-file(paste0(path, filename, ".tex"))
     writeLines(content, fileConn)
     close(fileConn)
     
     # Exportation du graphique en tex
-    tikz(file = paste0("tmp_", filename, "_content.tex"), width = width, height = height)
+    tikz(file = paste0(path, filename, "_content.tex"), width = width, height = height, verbose = verbose)
     print(plot)
     dev.off()
     
     # Executer le fichier tex pour obtenir le pdf
-    system(paste0("/Library/TeX/texbin/", interpreter, " -shell-escape -synctex=1 -interaction=nonstopmode  ", 
-                  "tmp_", filename, ".tex"))
-    system(paste0("mv tmp_", filename, ".pdf ", path, filename, ".pdf"))
-    system(paste0("rm tmp_", filename, ".aux"))
-    system(paste0("rm tmp_", filename, ".log"))
-    system(paste0("rm tmp_", filename, ".synctex.gz"))
-    if (!keep_tex) {
-      system(paste0("rm tmp_", filename, ".tex"))
-      system(paste0("rm tmp_", filename, "_content.tex"))
-    }else{
-      system(paste0("mv tmp_", filename, ".tex ", path, filename, ".tex"))
-      system(paste0("mv tmp_", filename, "_content.tex ", path, filename, "_content.tex"))
+    system(paste0("/Library/TeX/texbin/", interpreter, " -shell-escape -synctex=1 -interaction=nonstopmode  ",
+                  path, filename, ".tex"), ignore.stdout = TRUE)
+    system(paste0("mv ", filename, ".pdf ", path))
+    system(paste0("rm ", filename, ".aux"))
+    system(paste0("rm ", filename, ".log"))
+    system(paste0("rm ", filename, ".synctex.gz"))
+    if(!keep_tex){
+      system(paste0("rm ", path, filename, ".tex"))
+      system(paste0("rm ", path, filename, "_content.tex"))
     }
 }
 

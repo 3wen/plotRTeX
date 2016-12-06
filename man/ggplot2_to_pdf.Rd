@@ -7,7 +7,7 @@ ggplot2 graphics to PDF using LaTeX
 Converts a ggplot2 graphic into LaTeX-friendly format (tikzpicture) and runs PDFLaTeX on a self-contained LaTeX document to obtain the graphic in a PDF format.
 }
 \usage{
-ggplot2_to_pdf(plot, interpreter = "pdflatex", path = "./", filename, keep_tex = TRUE, width = 15, height = 15)
+ggplot2_to_pdf(plot, interpreter = "pdflatex", path = "./", filename, keep_tex = FALSE, width = 15, height = 15, verbose = FALSE, ignore.stdout = TRUE)
 }
 
 \arguments{
@@ -31,7 +31,13 @@ if FALSE (default), removes TeX files
 width: plot width
 }
   \item{height}{
-width: plot height
+height: plot height
+}
+  \item{verbose}{
+verbose: a logical value indicating whether diagnostic messages are printed when measuring dimensions of strings. Defaults to TRUE in interactive mode only, to FALSE otherwise.
+}
+  \item{ignore.stdout}{
+ignore.stdout: a logical (not NA) indicating whether messages written to 'stdout' or 'stderr' should be ignored.
 }
 }
 \value{
@@ -119,5 +125,5 @@ p_2 <-
   )
 
 
-# ggplot2_to_pdf(plot = p_2, path = "./", filename = "eco_faceting", width = 15, height = 8)
+# ggplot2_to_pdf(plot = p_2, path = "./", filename = "eco_faceting",width = 15, height = 8)
 }
