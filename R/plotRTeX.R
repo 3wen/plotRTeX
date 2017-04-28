@@ -2,7 +2,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(tikzDevice)
-
+ 
 # Exports ggplot2 to a tex and then runs pdflatex to a standalone tex file
 # @plot : ggplot2 object
 # @interpreter : which interpreter to use (default to pdflatex)
