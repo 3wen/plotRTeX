@@ -14,6 +14,10 @@ ggplot2_to_pdf(plot, interpreter = "pdflatex", path = "./", filename, keep_tex =
   \item{plot}{
 ggplot2 object
 }
+\item{path_to_latex}{
+path to LaTeX folder (default to "/Library/TeX/texbin/")
+}
+
 \item{interpreter}{
 which interpreter to use (default to pdflatex)
 }

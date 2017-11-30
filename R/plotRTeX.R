@@ -5,6 +5,7 @@ library(tikzDevice)
  
 # Exports ggplot2 to a tex and then runs pdflatex to a standalone tex file
 # @plot : ggplot2 object
+# @path_to_latex: path to LaTeX folder (default to "/Library/TeX/texbin/")
 # @interpreter : which interpreter to use (default to pdflatex)
 # @path : path to file that will be created (must not contain filename)
 # @filename: name of the file (without extension)
@@ -14,7 +15,7 @@ library(tikzDevice)
 # @ignore.stdout: a logical (not NA) indicating whether messages written to 'stdout' or 'stderr' should be ignored.
 # path <- "../images/" ; filename <- "data" ; width = 15 ; height = .75*width
 ggplot2_to_pdf <- 
-  function(plot, interpreter = "pdflatex", path = "./",
+  function(plot, path_to_latex = "/Library/TeX/texbin/", interpreter = "pdflatex", path = "./",
            filename, keep_tex = FALSE, width = 15, height = 15, verbose = FALSE, ignore.stdout = TRUE){
     content <- paste0("\\documentclass{standalone}
                       \\usepackage{amssymb}
@@ -43,7 +44,7 @@ ggplot2_to_pdf <-
     dev.off()
     
     # Executer le fichier tex pour obtenir le pdf
-    system(paste0("/Library/TeX/texbin/", interpreter, " -shell-escape -synctex=1 -interaction=nonstopmode  ",
+    system(paste0(path_to_latex, interpreter, " -shell-escape -synctex=1 -interaction=nonstopmode  ",
                   path, filename, ".tex"), ignore.stdout = TRUE)
     system(paste0("mv ", filename, ".pdf ", path))
     system(paste0("rm ", filename, ".aux"))
