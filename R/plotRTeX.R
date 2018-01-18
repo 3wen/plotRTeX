@@ -43,10 +43,17 @@ ggplot2_to_pdf <-
     print(plot)
     dev.off()
     
+    # Deplacer l'echelle, le cas echeant
+    name_scale <- paste0(filename, "_content_ras1.png")
+    scale_exists <- file.exists(name_scale)
+    if(scale_exists & ! path %in% c(".", "./", "/")){
+      system(paste0("mv ", name_scale, " ", path))
+    }
+    
     # Executer le fichier tex pour obtenir le pdf
     system(paste0(path_to_latex, interpreter, " -shell-escape -synctex=1 -interaction=nonstopmode  ",
                   path, filename, ".tex"), ignore.stdout = TRUE)
-    system(paste0("mv ", filename, ".pdf ", path))
+    if(!path %in%  c(".", "./", "/")) system(paste0("mv ", filename, ".pdf ", path))
     system(paste0("rm ", filename, ".aux"))
     system(paste0("rm ", filename, ".log"))
     system(paste0("rm ", filename, ".synctex.gz"))
@@ -54,5 +61,6 @@ ggplot2_to_pdf <-
       system(paste0("rm ", path, filename, ".tex"))
       system(paste0("rm ", path, filename, "_content.tex"))
     }
+    if(scale_exists)system(paste0("rm ", path, "/", name_scale))
 }
 

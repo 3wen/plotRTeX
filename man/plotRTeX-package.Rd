@@ -39,7 +39,7 @@ p <-
   xlab("") + ylab("") +
   theme(text = element_text(size = 20),
         panel.background = element_rect(fill = NA),
-        panel.margin = unit(1, "lines"),
+        panel.spacing = unit(1, "lines"),
         panel.grid.major = element_line(colour = "grey90"),
         panel.grid.minor = element_blank(),
         plot.title = element_text(hjust = 0, size = rel(1.3), face = "bold"),
@@ -75,7 +75,7 @@ p_2 <-
   xlab("") + ylab("") +
   theme(text = element_text(size = 20),
         panel.background = element_rect(fill = NA),
-        panel.margin = unit(1, "lines"),
+        panel.spacing = unit(1, "lines"),
         panel.grid.major = element_line(colour = "grey90"),
         panel.grid.minor = element_blank(),
         plot.title = element_text(hjust = 0, size = rel(1.3), face = "bold"),
