@@ -19,6 +19,7 @@ ggplot2_to_pdf <-
            filename, keep_tex = FALSE, width = 15, height = 15, verbose = FALSE, ignore.stdout = TRUE){
     content <- paste0("\\documentclass{standalone}
                       \\usepackage{amssymb}
+                      \\usepackage{newtxtext,newtxmath}
                       \\usepackage{pgfplots}
                       \\usetikzlibrary{pgfplots.groupplots}
                       \\definecolor{mygrey2}{RGB}{127,127,127}
